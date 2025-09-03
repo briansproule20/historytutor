@@ -53,10 +53,7 @@ export default function Chat() {
                     {message.role === "user" ? "You" : "HistoryTutor"}
                   </div>
                   <div className="text-sm whitespace-pre-wrap">
-                    {message.parts
-                      .filter((part) => part.type === 'text')
-                      .map((part) => part.text)
-                      .join('')}
+                    {message.content}
                   </div>
                 </div>
               </div>
