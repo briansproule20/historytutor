@@ -60,15 +60,17 @@ export const EchoProvider: React.FC<EchoProviderProps> = ({ config, children }) 
       const response = await fetch('/api/echo/check-auth');
       if (response.ok) {
         const { isSignedIn, user: userData } = await response.json();
-        setIsAuthenticated(isSignedIn);
         
-        if (isSignedIn && userData) {
+        if (isSignedIn && userData && userData.id && userData.email) {
+          // Only consider authenticated if we have valid user data with ID and email
           setUser(userData);
-          // Use the real balance from the API response
           setBalance(userData.balance);
+          setIsAuthenticated(true);
         } else {
+          // If we don't have proper user data, treat as not authenticated
           setUser(null);
           setBalance(null);
+          setIsAuthenticated(false);
         }
       } else {
         setIsAuthenticated(false);

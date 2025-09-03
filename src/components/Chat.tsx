@@ -90,7 +90,7 @@ export default function Chat() {
   }, [status, messages, generateSmartSuggestions, isGeneratingSuggestions]);
 
   return (
-    <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] min-h-[720px] w-full overflow-hidden relative">
+    <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative">
       <div className="bg-white dark:bg-gray-800 w-full h-full flex">
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col">
