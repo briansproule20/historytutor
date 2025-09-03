@@ -1,6 +1,7 @@
 import { useEcho } from "@/context/EchoProvider";
 import { EchoSignIn } from "@/components/EchoSignIn";
 import Image from "next/image";
+import Link from "next/link";
 
 interface HeaderProps {
   isDarkMode?: boolean;
@@ -53,7 +54,12 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-0">
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center overflow-hidden">
+              <Link 
+                href="https://litparlor.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center overflow-hidden hover:from-amber-700 hover:to-orange-700 transition-all duration-200 transform hover:scale-105"
+              >
                 <Image
                   src="/favicon.ico"
                   alt="LitParlor"
@@ -61,7 +67,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                   height={24}
                   className="rounded"
                 />
-              </div>
+              </Link>
               <div>
                 <h1 className={`text-2xl font-bold ${
                   isDarkMode ? 'text-slate-100' : 'text-amber-900'

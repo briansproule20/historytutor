@@ -111,24 +111,7 @@ function HomeContent() {
         </div>
       </div>
 
-      <footer className={`relative z-10 mt-16 py-8 border-t ${
-        isDarkMode 
-          ? 'border-slate-600/30 bg-slate-800/20' 
-          : 'border-white/20 bg-black/10'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <a
-            className={`inline-flex items-center gap-2 hover:opacity-80 transition-opacity ${
-              isDarkMode ? 'text-slate-300' : 'text-amber-600'
-            }`}
-            href="https://litparlor.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by LitParlor
-          </a>
-        </div>
-      </footer>
+
     </div>
   );
 }
