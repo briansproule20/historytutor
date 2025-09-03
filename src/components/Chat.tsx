@@ -2,13 +2,17 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useChat } from "@ai-sdk/react";
+import { useLanguage } from "@/context/LanguageContext";
 import ReactMarkdown from 'react-markdown';
 
 export default function Chat() {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false);
-  const { messages, sendMessage, status } = useChat();
+  const { language, t } = useLanguage();
+  const { messages, sendMessage, status } = useChat({
+    body: { language }
+  });
 
   const isLoading = status === 'streaming' || status === 'submitted';
 
@@ -50,44 +54,44 @@ export default function Chat() {
       console.error('Error generating suggestions:', error);
       // Fallback to default suggestions only on error
       setSuggestions([
-        "What historical period should we explore first?",
-        "Can we talk about a famous historical figure?", 
-        "How did ancient civilizations start?",
-        "What were the biggest wars in history?",
-        "How do empires usually collapse?",
-        "What inventions changed the world the most?"
+        t('suggestion.default1'),
+        t('suggestion.default2'),
+        t('suggestion.default3'),
+        t('suggestion.default4'),
+        t('suggestion.default5'),
+        t('suggestion.default6')
       ]);
     } finally {
       setIsGeneratingSuggestions(false);
     }
-  }, [isGeneratingSuggestions]);
+  }, [isGeneratingSuggestions, t]);
 
   useEffect(() => {
     // Set initial suggestions when no conversation exists
-    if (messages.length === 0 && suggestions.length === 0) {
+    if (messages.length === 0) {
       setSuggestions([
-        "What historical period should we explore first?",
-        "Can we talk about a famous historical figure?", 
-        "How did ancient civilizations start?",
-        "What were the biggest wars in history?",
-        "How do empires usually collapse?",
-        "What inventions changed the world the most?"
+        t('suggestion.default1'),
+        t('suggestion.default2'),
+        t('suggestion.default3'),
+        t('suggestion.default4'),
+        t('suggestion.default5'),
+        t('suggestion.default6')
       ]);
     }
-  }, [messages, suggestions.length]);
+  }, [messages.length, t]);
 
   useEffect(() => {
     // Only generate suggestions after LLM finishes streaming 
-    if (status !== 'streaming' && status !== 'submitted' && messages.length >= 2) {
+    if (status !== 'streaming' && status !== 'submitted' && messages.length >= 2 && !isGeneratingSuggestions) {
       const lastMessage = messages[messages.length - 1];
       const secondLastMessage = messages[messages.length - 2];
       
       // Only generate if the last message is from assistant and the one before is from user
-      if (lastMessage.role === 'assistant' && secondLastMessage.role === 'user' && !isGeneratingSuggestions) {
+      if (lastMessage.role === 'assistant' && secondLastMessage.role === 'user') {
         generateSmartSuggestions(messages);
       }
     }
-  }, [status, messages, generateSmartSuggestions, isGeneratingSuggestions]);
+  }, [status, messages.length]);
 
   return (
     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative">
@@ -105,8 +109,20 @@ export default function Chat() {
           
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 ? (
-              <div className="text-center text-gray-500 dark:text-gray-400 py-8">
-                Start a conversation about history!
+              <div className="flex justify-start">
+                <div className="max-w-xs lg:max-w-2xl px-4 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white">
+                  <div className="text-sm space-y-3">
+                    <p className="font-medium">{t('welcome.greeting')}</p>
+                    <ul className="list-disc list-inside space-y-1 ml-2">
+                      <li>{t('welcome.bullet1')}</li>
+                      <li>{t('welcome.bullet2')}</li>
+                      <li>{t('welcome.bullet3')}</li>
+                      <li>{t('welcome.bullet4')}</li>
+                      <li>{t('welcome.bullet5')}</li>
+                    </ul>
+                    <p className="font-medium pt-2">{t('welcome.callToAction')}</p>
+                  </div>
+                </div>
               </div>
             ) : (
               messages.map((message, index) => (

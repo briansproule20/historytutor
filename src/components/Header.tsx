@@ -1,7 +1,9 @@
 import { useEcho } from "@/context/EchoProvider";
+import { useLanguage } from "@/context/LanguageContext";
 import { EchoSignIn } from "@/components/EchoSignIn";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 interface HeaderProps {
   isDarkMode?: boolean;
@@ -43,9 +45,17 @@ const LogOutIcon = () => (
 
 export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderProps) {
   const { isAuthenticated, isLoading, user, balance, signOut } = useEcho();
+  const { language, setLanguage, t } = useLanguage();
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'ht', name: 'Kreyòl', flag: '🇭🇹' }
+  ];
   
   return (
-    <div className={`backdrop-blur-md border-b relative z-10 ${
+    <div className={`backdrop-blur-md border-b relative z-[70] ${
       isDarkMode
         ? 'bg-slate-800/30 border-slate-600/30'
         : 'bg-amber-800/20 border-amber-700/30'
@@ -72,21 +82,70 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                 <div className="flex items-baseline space-x-2">
                   <h1 className={`text-3xl font-bold leading-tight ${
                     isDarkMode ? 'text-slate-100' : 'text-amber-900'
-                  }`}>HistoryTutor</h1>
+                  }`}>{t('header.title')}</h1>
                   <span className={`text-sm font-medium ${
                     isDarkMode ? 'text-amber-400' : 'text-amber-600'
-                  }`}>By LitParlor</span>
+                  }`}>{t('header.byLitParlor')}</span>
                 </div>
                 <p className={`text-base font-medium ${
                   isDarkMode ? 'text-slate-300' : 'text-amber-700'
-                }`}>AI-Powered Historical Context & Perspective Explorer</p>
+                }`}>{t('header.subtitle')}</p>
               </div>
             </div>
           </div>
           
           <div className="flex flex-col items-end lg:items-end space-y-3">
-            {/* Top Row: Dark Mode Toggle */}
-            <div className="flex items-center space-x-3">
+            {/* Top Row: Language Selection & Dark Mode Toggle */}
+            <div className="flex items-center space-x-2">
+              {/* Language Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                  className={`backdrop-blur-md px-3 py-2 text-xs font-medium rounded-lg transition-colors flex items-center space-x-1 ${
+                    isDarkMode 
+                      ? 'bg-slate-700/50 border border-slate-600/30 text-slate-200 hover:bg-slate-600/50 hover:text-slate-100'
+                      : 'bg-amber-800/20 border border-amber-700/30 text-amber-900 hover:bg-amber-800/30 hover:text-amber-800'
+                  }`}
+                >
+                  <span>{languages.find(l => l.code === language)?.flag}</span>
+                  <span>{languages.find(l => l.code === language)?.code.toUpperCase()}</span>
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+                
+                {isLanguageOpen && (
+                  <div className={`absolute right-0 mt-1 w-32 rounded-lg shadow-lg z-[100] ${
+                    isDarkMode
+                      ? 'bg-slate-700 border border-slate-600'
+                      : 'bg-white border border-amber-200'
+                  }`}>
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          setLanguage(lang.code);
+                          setIsLanguageOpen(false);
+                        }}
+                        className={`w-full px-3 py-2 text-left text-xs font-medium flex items-center space-x-2 transition-colors ${
+                          language === lang.code
+                            ? isDarkMode
+                              ? 'bg-slate-600 text-slate-100'
+                              : 'bg-amber-100 text-amber-900'
+                            : isDarkMode
+                              ? 'text-slate-200 hover:bg-slate-600 hover:text-slate-100'
+                              : 'text-amber-800 hover:bg-amber-50 hover:text-amber-900'
+                        } ${lang === languages[0] ? 'rounded-t-lg' : ''} ${lang === languages[languages.length - 1] ? 'rounded-b-lg' : ''}`}
+                      >
+                        <span>{lang.flag}</span>
+                        <span>{lang.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              {/* Dark Mode Toggle */}
               {toggleDarkMode && (
                 <button
                   onClick={toggleDarkMode}
@@ -125,7 +184,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                   }`}>
                     <div className="flex items-center space-x-2">
                       <UserIcon />
-                      <span className="text-xs sm:text-sm font-medium truncate max-w-[100px] sm:max-w-none">{user?.name || user?.email || 'User'}</span>
+                      <span className="text-xs sm:text-sm font-medium truncate max-w-[100px] sm:max-w-none">{user?.name || user?.email || t('header.user')}</span>
                     </div>
                   </div>
                   
@@ -140,10 +199,10 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                       <span className="text-xs sm:text-sm font-medium">
                         {balance ? (
                           typeof balance === 'number' ? 
-                            `${balance.toFixed(3)} credits` : 
-                            `${(balance.balance || 0).toFixed(3)} credits`
+                            `${balance.toFixed(3)} ${t('header.credits')}` : 
+                            `${(balance.balance || 0).toFixed(3)} ${t('header.credits')}`
                         ) : (
-                          '0.000 credits'
+                          `0.000 ${t('header.credits')}`
                         )}
                       </span>
                     </div>
@@ -161,7 +220,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                         : 'bg-amber-50/80 border border-amber-200/50 text-amber-800 hover:bg-amber-100/80 hover:text-amber-900'
                     }`}
                   >
-                    Echo Base
+                    {t('header.echoBase')}
                   </button>
                   
                   {/* Sign Out */}
@@ -174,7 +233,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                     }`}
                   >
                     <LogOutIcon />
-                    <span className="hidden sm:inline">Sign Out</span>
+                    <span className="hidden sm:inline">{t('header.signOut')}</span>
                   </button>
                 </div>
               </div>
@@ -188,7 +247,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                     : 'bg-amber-50/80 border border-amber-200/50 text-amber-800 hover:bg-amber-100/80 hover:text-amber-900'
                 }`}
               >
-                Sign In to Echo
+                {t('header.signIn')}
               </EchoSignIn>
             )}
           </div>

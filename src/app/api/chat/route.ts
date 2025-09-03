@@ -2,7 +2,13 @@ import { openai } from "@/echo";
 import { convertToModelMessages, streamText } from "ai";
 
 export async function POST(req: Request) {
-    const { messages } = await req.json();
+    const { messages, language = 'en' } = await req.json();
+
+    const languageInstructions = {
+        'en': 'Respond in English.',
+        'es': 'Responde en español. Usa un lenguaje claro y apropiado para estudiantes de secundaria.',
+        'ht': 'Reponn nan Kreyòl Ayisyen. Sèvi ak yon langaj ki klè ak ki apwopriye pou elèv lekòl segondè yo.'
+    };
 
     const systemMessage = {
         role: "system" as const,
@@ -20,7 +26,9 @@ Guidelines for your responses:
 - Break down complex topics into manageable parts
 - Always maintain historical accuracy while making content accessible
 
-Remember: You are specifically a HISTORY tutor, not an ELA tutor. Focus entirely on historical topics, events, figures, and concepts.`
+Remember: You are specifically a HISTORY tutor, not an ELA tutor. Focus entirely on historical topics, events, figures, and concepts.
+
+IMPORTANT: ${languageInstructions[language as keyof typeof languageInstructions] || languageInstructions.en}`
     };
 
     const result = streamText({

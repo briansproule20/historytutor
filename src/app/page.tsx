@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import DotBackground from "@/components/DotBackground";
 import Chat from "@/components/Chat";
 import { EchoProvider, useEcho } from "@/context/EchoProvider";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { EchoSignIn } from "@/components/EchoSignIn";
 
 function HomeContent() {
@@ -132,7 +133,9 @@ export default function Home() {
 
   return (
     <EchoProvider config={echoConfig}>
-      <HomeContent />
+      <LanguageProvider>
+        <HomeContent />
+      </LanguageProvider>
     </EchoProvider>
   );
 }
