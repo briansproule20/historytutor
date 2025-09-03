@@ -1,5 +1,6 @@
 import { useEcho } from "@/context/EchoProvider";
 import { EchoSignIn } from "@/components/EchoSignIn";
+import Image from "next/image";
 
 interface HeaderProps {
   isDarkMode?: boolean;
@@ -52,8 +53,14 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-0">
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">H</span>
+              <div className="w-10 h-10 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/favicon.ico"
+                  alt="LitParlor"
+                  width={24}
+                  height={24}
+                  className="rounded"
+                />
               </div>
               <div>
                 <h1 className={`text-2xl font-bold ${
