@@ -10,23 +10,27 @@ export default function Chat() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false);
   const { language, t } = useLanguage();
-  const { messages, sendMessage, status } = useChat({
-    body: { language }
-  });
+  const { messages, sendMessage, status } = useChat();
 
   const isLoading = status === 'streaming' || status === 'submitted';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() && !isLoading) {
-      sendMessage({ text: input });
+      sendMessage({ 
+        text: input,
+        metadata: { language }
+      });
       setInput("");
     }
   };
 
   const handleSuggestionClick = (suggestion: string) => {
     if (!isLoading) {
-      setInput(suggestion);
+      sendMessage({ 
+        text: suggestion,
+        metadata: { language }
+      });
     }
   };
 
@@ -91,7 +95,7 @@ export default function Chat() {
         generateSmartSuggestions(messages);
       }
     }
-  }, [status, messages.length]);
+  }, [status, messages.length, generateSmartSuggestions, isGeneratingSuggestions, messages]);
 
   return (
     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative">

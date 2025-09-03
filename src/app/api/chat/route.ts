@@ -3,6 +3,10 @@ import { convertToModelMessages, streamText } from "ai";
 
 export async function POST(req: Request) {
     const { messages, language = 'en' } = await req.json();
+    
+    // Extract language from the last message's metadata if available
+    const lastMessage = messages[messages.length - 1];
+    const messageLanguage = lastMessage?.metadata?.language || language;
 
     const languageInstructions = {
         'en': 'Respond in English.',
@@ -28,7 +32,7 @@ Guidelines for your responses:
 
 Remember: You are specifically a HISTORY tutor, not an ELA tutor. Focus entirely on historical topics, events, figures, and concepts.
 
-IMPORTANT: ${languageInstructions[language as keyof typeof languageInstructions] || languageInstructions.en}`
+IMPORTANT: ${languageInstructions[messageLanguage as keyof typeof languageInstructions] || languageInstructions.en}`
     };
 
     const result = streamText({
