@@ -50,7 +50,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
         ? 'bg-slate-800/30 border-slate-600/30'
         : 'bg-amber-800/20 border-amber-700/30'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 pt-4 sm:pt-6 pb-0">
+      <div className="max-w-7xl mx-auto pr-4 pl-2 pt-4 sm:pt-6 pb-0">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-0">
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-3">
@@ -58,21 +58,26 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                 href="https://litparlor.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center overflow-hidden hover:from-amber-700 hover:to-orange-700 transition-all duration-200 transform hover:scale-105"
+                className="w-16 h-16 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center overflow-hidden hover:from-amber-700 hover:to-orange-700 transition-all duration-200 transform hover:scale-105"
               >
                 <Image
                   src="/favicon.ico"
                   alt="LitParlor"
-                  width={24}
-                  height={24}
+                  width={36}
+                  height={36}
                   className="rounded"
                 />
               </Link>
-              <div>
-                <h1 className={`text-2xl font-bold ${
-                  isDarkMode ? 'text-slate-100' : 'text-amber-900'
-                }`}>HistoryTutor</h1>
-                <p className={`text-sm ${
+              <div className="flex flex-col">
+                <div className="flex items-baseline space-x-2">
+                  <h1 className={`text-3xl font-bold leading-tight ${
+                    isDarkMode ? 'text-slate-100' : 'text-amber-900'
+                  }`}>HistoryTutor</h1>
+                  <span className={`text-sm font-medium ${
+                    isDarkMode ? 'text-amber-400' : 'text-amber-600'
+                  }`}>By LitParlor</span>
+                </div>
+                <p className={`text-base font-medium ${
                   isDarkMode ? 'text-slate-300' : 'text-amber-700'
                 }`}>AI-Powered Historical Context & Perspective Explorer</p>
               </div>
