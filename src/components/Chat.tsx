@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useChat } from "@ai-sdk/react";
 import { useLanguage } from "@/context/LanguageContext";
 import ReactMarkdown from 'react-markdown';
@@ -11,8 +11,13 @@ export default function Chat() {
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false);
   const { language, t } = useLanguage();
   const { messages, sendMessage, status } = useChat();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const isLoading = status === 'streaming' || status === 'submitted';
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,10 +32,7 @@ export default function Chat() {
 
   const handleSuggestionClick = (suggestion: string) => {
     if (!isLoading) {
-      sendMessage({ 
-        text: suggestion,
-        metadata: { language }
-      });
+      setInput(suggestion);
     }
   };
 
@@ -95,7 +97,12 @@ export default function Chat() {
         generateSmartSuggestions(messages);
       }
     }
-  }, [status, messages.length, generateSmartSuggestions, isGeneratingSuggestions, messages]);
+  }, [status, messages.length]);
+
+  // Auto-scroll effect - separate from suggestion generation
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
 
   return (
     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative">
@@ -187,6 +194,7 @@ export default function Chat() {
                 </div>
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
           
           <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
