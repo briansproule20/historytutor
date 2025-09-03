@@ -190,8 +190,8 @@ export default function Chat() {
           </form>
         </div>
 
-        {/* Smart Suggestions Sidebar */}
-        <div className="w-80 border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex flex-col">
+        {/* Smart Suggestions Sidebar - Desktop Only */}
+        <div className="hidden lg:flex w-80 border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div className="flex items-center justify-between mb-1">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
