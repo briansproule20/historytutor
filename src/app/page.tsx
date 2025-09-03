@@ -1,29 +1,39 @@
 import { SignInButton } from "@/components/SignInButton";
+import Chat from "@/components/Chat";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <div className="text-center sm:text-left">
-          <h1 className="text-4xl font-bold mb-4">HistoryTutor</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-            Explore historical context, varying perspectives, and how the world around us was shaped.
-          </p>
+    <div className="font-sans min-h-screen">
+      <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">HistoryTutor</h1>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Explore historical context, varying perspectives, and how the world around us was shaped.
+              </p>
+            </div>
+            <SignInButton />
+          </div>
         </div>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <SignInButton />
-        </div>
+      <main className="py-8">
+        <Chat />
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://litparlor.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by LitParlor
-        </a>
+      <footer className="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center">
+            <a
+              className="flex items-center gap-2 hover:underline hover:underline-offset-4 text-gray-600 dark:text-gray-400"
+              href="https://litparlor.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Powered by LitParlor
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   );
