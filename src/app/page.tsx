@@ -122,7 +122,7 @@ function HomeContent() {
                     {/* Additional Info */}
                     <div className="mt-6 pt-6 border-t border-gray-200">
                       <p className="text-sm text-gray-500">
-                        Don't have an account? 
+                        Don&apos;t have an account? 
                         <a 
                           href="https://echo.merit.systems" 
                           target="_blank" 

@@ -1,9 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
 
 export async function POST() {
   try {
-    const cookieStore = await cookies();
     
     // Clear all Echo authentication cookies
     const response = NextResponse.json({ success: true });

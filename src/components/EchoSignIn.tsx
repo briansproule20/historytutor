@@ -4,8 +4,8 @@ import React from 'react';
 import { signIn } from "@merit-systems/echo-next-sdk/client";
 
 interface EchoSignInProps {
-  onSuccess?: (user: any) => void;
-  onError?: (error: any) => void;
+  onSuccess?: (user: unknown) => void;
+  onError?: (error: unknown) => void;
   className?: string;
   children: React.ReactNode;
 }
