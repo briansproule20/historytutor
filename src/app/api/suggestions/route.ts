@@ -43,9 +43,10 @@ export async function POST(req: Request) {
 10. Build directly off what the tutor just explained or taught
 
 Conversation history:
-${recentMessages.map(msg => {
-  const content = msg.parts?.filter(part => part.type === 'text').map(part => part.text).join('') || msg.content || '';
-  return `${msg.role === 'user' ? 'Student' : 'History Tutor'}: ${content}`;
+${recentMessages.map((msg: unknown) => {
+  const message = msg as { role: string; parts?: Array<{ type: string; text: string }>; content?: string };
+  const content = message.parts?.filter((part: { type: string; text: string }) => part.type === 'text').map((part: { type: string; text: string }) => part.text).join('') || message.content || '';
+  return `${message.role === 'user' ? 'Student' : 'History Tutor'}: ${content}`;
 }).join('\n\n')}
 
 Generate suggestions that would help the student dive deeper into the specific historical topics, events, people, or concepts that were just discussed by the tutor.`

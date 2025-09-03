@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useChat } from "@ai-sdk/react";
 import ReactMarkdown from 'react-markdown';
 
@@ -26,7 +26,7 @@ export default function Chat() {
     }
   };
 
-  const generateSmartSuggestions = async (conversationHistory: any[]) => {
+  const generateSmartSuggestions = useCallback(async (conversationHistory: unknown[]) => {
     if (isGeneratingSuggestions) return;
     
     setIsGeneratingSuggestions(true);
@@ -60,7 +60,7 @@ export default function Chat() {
     } finally {
       setIsGeneratingSuggestions(false);
     }
-  };
+  }, [isGeneratingSuggestions]);
 
   useEffect(() => {
     // Set initial suggestions when no conversation exists
@@ -87,7 +87,7 @@ export default function Chat() {
         generateSmartSuggestions(messages);
       }
     }
-  }, [status, messages.length]);
+  }, [status, messages, generateSmartSuggestions, isGeneratingSuggestions]);
 
   return (
     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] min-h-[720px] w-full overflow-hidden relative">
