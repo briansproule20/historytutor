@@ -18,9 +18,9 @@ export default function Chat() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+    <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] min-h-[720px] w-full overflow-hidden relative">
+      <div className="bg-white dark:bg-gray-800 w-full h-full flex flex-col">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             HistoryTutor Chat
           </h2>
@@ -29,7 +29,7 @@ export default function Chat() {
           </p>
         </div>
         
-        <div className="h-96 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.length === 0 ? (
             <div className="text-center text-gray-500 dark:text-gray-400 py-8">
               Start a conversation about history!
@@ -72,7 +72,7 @@ export default function Chat() {
           )}
         </div>
         
-        <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700">
+        <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <div className="flex gap-2">
             <input
               type="text"
