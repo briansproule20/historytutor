@@ -94,7 +94,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
             </div>
           </div>
           
-          <div className="flex flex-col items-end lg:items-end space-y-3">
+          <div className="flex flex-col items-end lg:items-end space-y-3 pb-2">
             {/* Top Row: Language Selection & Dark Mode Toggle */}
             <div className="flex items-center space-x-2">
               {/* Language Dropdown */}
