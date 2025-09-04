@@ -107,7 +107,7 @@ export default function Chat() {
   }, [messages, isLoading]);
 
   return (
-    <div className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative ${fontFamily}`}>
+    <div className={`md:bg-white/10 md:backdrop-blur-md md:border md:border-white/20 md:rounded-xl md:shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative ${fontFamily}`}>
       <div className="bg-white dark:bg-gray-800 w-full h-full flex">
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col">
