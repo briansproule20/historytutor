@@ -6,6 +6,9 @@ interface LanguageContextType {
   language: string;
   setLanguage: (lang: string) => void;
   t: (key: string) => string;
+  fontSize: 'small' | 'medium' | 'large';
+  setFontSize: (size: 'small' | 'medium' | 'large') => void;
+  getFontSizeClasses: () => { message: string; ui: string };
 }
 
 interface LanguageProviderProps {
@@ -16,6 +19,9 @@ const LanguageContext = createContext<LanguageContextType>({
   language: 'en',
   setLanguage: () => {},
   t: (key: string) => key,
+  fontSize: 'small',
+  setFontSize: () => {},
+  getFontSizeClasses: () => ({ message: 'text-sm', ui: 'text-xs' }),
 });
 
 const translations = {
@@ -178,17 +184,41 @@ export const useLanguage = () => {
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState('en');
+  const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large'>('small');
 
   useEffect(() => {
     const saved = localStorage.getItem('preferred-language');
     if (saved && ['en', 'es', 'ht'].includes(saved)) {
       setLanguage(saved);
     }
+    
+    const savedFontSize = localStorage.getItem('preferred-font-size');
+    if (savedFontSize && ['small', 'medium', 'large'].includes(savedFontSize)) {
+      setFontSize(savedFontSize as 'small' | 'medium' | 'large');
+    }
   }, []);
 
   const handleSetLanguage = (lang: string) => {
     setLanguage(lang);
     localStorage.setItem('preferred-language', lang);
+  };
+  
+  const handleSetFontSize = (size: 'small' | 'medium' | 'large') => {
+    setFontSize(size);
+    localStorage.setItem('preferred-font-size', size);
+  };
+  
+  const getFontSizeClasses = () => {
+    switch (fontSize) {
+      case 'small':
+        return { message: 'text-sm', ui: 'text-xs' };
+      case 'medium':
+        return { message: 'text-base', ui: 'text-sm' };
+      case 'large':
+        return { message: 'text-lg', ui: 'text-base' };
+      default:
+        return { message: 'text-sm', ui: 'text-xs' };
+    }
   };
 
   const t = (key: string): string => {
@@ -197,7 +227,14 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
+    <LanguageContext.Provider value={{ 
+      language, 
+      setLanguage: handleSetLanguage, 
+      t, 
+      fontSize, 
+      setFontSize: handleSetFontSize,
+      getFontSizeClasses 
+    }}>
       {children}
     </LanguageContext.Provider>
   );

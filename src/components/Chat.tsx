@@ -9,7 +9,8 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false);
-  const { language, t } = useLanguage();
+  const { language, t, getFontSizeClasses } = useLanguage();
+  const fontSizes = getFontSizeClasses();
   const { messages, sendMessage, status } = useChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -113,7 +114,7 @@ export default function Chat() {
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               History Tutor Chat
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className={`${fontSizes.ui} text-gray-600 dark:text-gray-400`}>
               Ask me anything about history!
             </p>
           </div>
@@ -122,7 +123,7 @@ export default function Chat() {
             {messages.length === 0 ? (
               <div className="flex justify-start">
                 <div className="max-w-xs lg:max-w-2xl px-4 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white">
-                  <div className="text-sm space-y-3">
+                  <div className={`${fontSizes.message} space-y-3`}>
                     <p className="font-medium">{t('welcome.greeting')}</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>{t('welcome.bullet1')}</li>
@@ -151,19 +152,19 @@ export default function Chat() {
                     }`}
                   >
                     {message.role === "user" ? (
-                      <div className="text-sm whitespace-pre-wrap">
+                      <div className={`${fontSizes.message} whitespace-pre-wrap`}>
                         {message.parts
                           .filter((part) => part.type === 'text')
                           .map((part) => part.text)
                           .join('')}
                       </div>
                     ) : (
-                      <div className="text-sm markdown-content">
+                      <div className={`${fontSizes.message} markdown-content`}>
                         <ReactMarkdown
                           components={{
-                          h1: ({children}) => <h1 className="text-lg font-bold text-gray-900 dark:text-white mb-2 mt-4">{children}</h1>,
-                          h2: ({children}) => <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-2 mt-3">{children}</h2>,
-                          h3: ({children}) => <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 mt-2">{children}</h3>,
+                          h1: ({children}) => <h1 className={`${fontSizes.message === 'text-sm' ? 'text-lg' : fontSizes.message === 'text-base' ? 'text-xl' : 'text-2xl'} font-bold text-gray-900 dark:text-white mb-2 mt-4`}>{children}</h1>,
+                          h2: ({children}) => <h2 className={`${fontSizes.message === 'text-sm' ? 'text-base' : fontSizes.message === 'text-base' ? 'text-lg' : 'text-xl'} font-semibold text-gray-900 dark:text-white mb-2 mt-3`}>{children}</h2>,
+                          h3: ({children}) => <h3 className={`${fontSizes.message} font-medium text-gray-900 dark:text-white mb-1 mt-2`}>{children}</h3>,
                           p: ({children}) => <p className="text-gray-900 dark:text-white mb-2">{children}</p>,
                           strong: ({children}) => <strong className="font-semibold text-gray-900 dark:text-white">{children}</strong>,
                           em: ({children}) => <em className="italic text-gray-700 dark:text-gray-300">{children}</em>,
@@ -190,7 +191,7 @@ export default function Chat() {
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white px-4 py-2 rounded-lg">
-                  <div className="text-sm">Thinking...</div>
+                  <div className={fontSizes.message}>Thinking...</div>
                 </div>
               </div>
             )}
@@ -203,14 +204,14 @@ export default function Chat() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about history..."
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder={t('chat.placeholder')}
+                className={`flex-1 px-3 py-2 ${fontSizes.message} border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white`}
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`px-4 py-2 ${fontSizes.ui} bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 {isLoading ? "Sending..." : "Send"}
               </button>
@@ -244,7 +245,7 @@ export default function Chat() {
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
                   disabled={isLoading}
-                  className="w-full text-left p-3 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group"
+                  className={`w-full text-left p-3 ${fontSizes.ui} bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 hover:border-blue-300 dark:hover:border-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group`}
                 >
                   <div className="text-gray-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
                     {suggestion}

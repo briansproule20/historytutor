@@ -45,13 +45,20 @@ const LogOutIcon = () => (
 
 export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderProps) {
   const { isAuthenticated, isLoading, user, balance, signOut } = useEcho();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, fontSize, setFontSize } = useLanguage();
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isFontSizeOpen, setIsFontSizeOpen] = useState(false);
   
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
     { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'ht', name: 'Kreyòl', flag: '🇭🇹' }
+  ];
+  
+  const fontSizes = [
+    { code: 'small', name: 'Small', icon: 'A' },
+    { code: 'medium', name: 'Medium', icon: 'A' },
+    { code: 'large', name: 'Large', icon: 'A' }
   ];
   
   return (
@@ -95,8 +102,60 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
           </div>
           
           <div className="flex flex-col items-end lg:items-end space-y-3 pb-2">
-            {/* Top Row: Language Selection & Dark Mode Toggle */}
+            {/* Top Row: Font Size, Language Selection & Dark Mode Toggle */}
             <div className="flex items-center space-x-2">
+              {/* Font Size Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsFontSizeOpen(!isFontSizeOpen)}
+                  className={`backdrop-blur-md px-3 py-2 text-xs font-medium rounded-lg transition-colors flex items-center space-x-1 ${
+                    isDarkMode 
+                      ? 'bg-slate-700/50 border border-slate-600/30 text-slate-200 hover:bg-slate-600/50 hover:text-slate-100'
+                      : 'bg-amber-800/20 border border-amber-700/30 text-amber-900 hover:bg-amber-800/30 hover:text-amber-800'
+                  }`}
+                >
+                  <span className={fontSize === 'small' ? 'text-xs' : fontSize === 'medium' ? 'text-sm' : 'text-base'}>
+                    {fontSizes.find(f => f.code === fontSize)?.icon}
+                  </span>
+                  <span>{fontSize.charAt(0).toUpperCase()}</span>
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+                
+                {isFontSizeOpen && (
+                  <div className={`absolute right-0 mt-1 w-28 rounded-lg shadow-lg z-[100] ${
+                    isDarkMode
+                      ? 'bg-slate-700 border border-slate-600'
+                      : 'bg-white border border-amber-200'
+                  }`}>
+                    {fontSizes.map((size, index) => (
+                      <button
+                        key={size.code}
+                        onClick={() => {
+                          setFontSize(size.code as 'small' | 'medium' | 'large');
+                          setIsFontSizeOpen(false);
+                        }}
+                        className={`w-full px-3 py-2 text-left font-medium flex items-center space-x-2 transition-colors ${
+                          fontSize === size.code
+                            ? isDarkMode
+                              ? 'bg-slate-600 text-slate-100'
+                              : 'bg-amber-100 text-amber-900'
+                            : isDarkMode
+                              ? 'text-slate-200 hover:bg-slate-600 hover:text-slate-100'
+                              : 'text-amber-800 hover:bg-amber-50 hover:text-amber-900'
+                        } ${index === 0 ? 'rounded-t-lg' : ''} ${index === fontSizes.length - 1 ? 'rounded-b-lg' : ''}`}
+                      >
+                        <span className={size.code === 'small' ? 'text-xs' : size.code === 'medium' ? 'text-sm' : 'text-base'}>
+                          {size.icon}
+                        </span>
+                        <span className={size.code === 'small' ? 'text-xs' : size.code === 'medium' ? 'text-sm' : 'text-base'}>{size.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
               {/* Language Dropdown */}
               <div className="relative">
                 <button
@@ -120,7 +179,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                       ? 'bg-slate-700 border border-slate-600'
                       : 'bg-white border border-amber-200'
                   }`}>
-                    {languages.map((lang) => (
+                    {languages.map((lang, index) => (
                       <button
                         key={lang.code}
                         onClick={() => {
@@ -135,7 +194,7 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                             : isDarkMode
                               ? 'text-slate-200 hover:bg-slate-600 hover:text-slate-100'
                               : 'text-amber-800 hover:bg-amber-50 hover:text-amber-900'
-                        } ${lang === languages[0] ? 'rounded-t-lg' : ''} ${lang === languages[languages.length - 1] ? 'rounded-b-lg' : ''}`}
+                        } ${index === 0 ? 'rounded-t-lg' : ''} ${index === languages.length - 1 ? 'rounded-b-lg' : ''}`}
                       >
                         <span>{lang.flag}</span>
                         <span>{lang.name}</span>
