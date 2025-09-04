@@ -21,7 +21,7 @@ const LanguageContext = createContext<LanguageContextType>({
 const translations = {
   en: {
     // Header
-    'header.title': 'HistoryTutor',
+    'header.title': 'History Tutor',
     'header.subtitle': 'AI-Powered Historical Context & Perspective Explorer',
     'header.byLitParlor': 'By LitParlor',
     'header.signIn': 'Sign In to Echo',
@@ -37,11 +37,11 @@ const translations = {
     'chat.sending': 'Sending...',
     'chat.thinking': 'Thinking...',
     'chat.you': 'You',
-    'chat.tutor': 'HistoryTutor',
+    'chat.tutor': 'History Tutor',
     'chat.startConversation': 'Start a conversation about history!',
     
     // Smart Suggestions
-    'suggestions.title': 'Smart Suggestions',
+    'suggestions.title': 'Further Inquiry',
     'suggestions.subtitle': 'Click any suggestion to explore',
     
     // Sign In Modal
@@ -70,7 +70,7 @@ const translations = {
   },
   es: {
     // Header
-    'header.title': 'HistoryTutor',
+    'header.title': 'History Tutor',
     'header.subtitle': 'Explorador de Contexto y Perspectiva Histórica con IA',
     'header.byLitParlor': 'Por LitParlor',
     'header.signIn': 'Iniciar Sesión en Echo',
@@ -86,11 +86,11 @@ const translations = {
     'chat.sending': 'Enviando...',
     'chat.thinking': 'Pensando...',
     'chat.you': 'Tú',
-    'chat.tutor': 'HistoryTutor',
+    'chat.tutor': 'History Tutor',
     'chat.startConversation': '¡Inicia una conversación sobre historia!',
     
     // Smart Suggestions
-    'suggestions.title': 'Sugerencias Inteligentes',
+    'suggestions.title': 'Investigación Adicional',
     'suggestions.subtitle': 'Haz clic en cualquier sugerencia para explorar',
     
     // Sign In Modal
@@ -119,7 +119,7 @@ const translations = {
   },
   ht: {
     // Header
-    'header.title': 'HistoryTutor',
+    'header.title': 'History Tutor',
     'header.subtitle': 'Eksplorè Kontèks ak Pèspektiv Istorik ak AI',
     'header.byLitParlor': 'Pa LitParlor',
     'header.signIn': 'Konekte nan Echo',
@@ -135,11 +135,11 @@ const translations = {
     'chat.sending': 'K ap voye...',
     'chat.thinking': 'K ap reflechi...',
     'chat.you': 'Ou',
-    'chat.tutor': 'HistoryTutor',
+    'chat.tutor': 'History Tutor',
     'chat.startConversation': 'Kòmanse yon konvèsasyon sou istwa!',
     
     // Smart Suggestions
-    'suggestions.title': 'Sijesyon Entelijan',
+    'suggestions.title': 'Rechèch Adisyonèl',
     'suggestions.subtitle': 'Klike sou nenpòt sijesyon pou eksplore',
     
     // Sign In Modal

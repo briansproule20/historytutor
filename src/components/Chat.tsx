@@ -111,7 +111,7 @@ export default function Chat() {
         <div className="flex-1 flex flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              HistoryTutor Chat
+              History Tutor Chat
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Ask me anything about history!
@@ -218,12 +218,12 @@ export default function Chat() {
           </form>
         </div>
 
-        {/* Smart Suggestions Sidebar - Desktop Only */}
+        {/* Further Inquiry Sidebar - Desktop Only */}
         <div className="hidden lg:flex w-80 border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div className="flex items-center justify-between mb-1">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Smart Suggestions
+                {t('suggestions.title')}
               </h3>
               <button
                 onClick={() => window.location.reload()}
