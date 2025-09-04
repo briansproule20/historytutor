@@ -118,6 +118,16 @@ export default function Chat() {
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                 History Tutor Chat
               </h2>
+              {/* Mobile New Chat Button */}
+              <button
+                onClick={() => window.location.reload()}
+                className="md:hidden p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                aria-label="New Chat"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
             </div>
           </div>
           
