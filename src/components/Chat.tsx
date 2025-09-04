@@ -21,8 +21,10 @@ export default function Chat() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
     if (input.trim() && !isLoading) {
       sendMessage({ 
         text: input,
@@ -99,7 +101,7 @@ export default function Chat() {
         generateSmartSuggestions(messages);
       }
     }
-  }, [status, messages.length]);
+  }, [status, messages, isGeneratingSuggestions, generateSmartSuggestions]);
 
   // Auto-scroll effect - separate from suggestion generation
   useEffect(() => {
@@ -112,12 +114,11 @@ export default function Chat() {
         {/* Main Chat Area */}
         <div className="w-full md:flex-1 flex flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              History Tutor Chat
-            </h2>
-            <p className={`${fontSizes.ui} text-gray-600 dark:text-gray-400`}>
-              Ask me anything about history!
-            </p>
+            <div className="flex items-center justify-between mb-1">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                History Tutor Chat
+              </h2>
+            </div>
           </div>
           
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -216,7 +217,7 @@ export default function Chat() {
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    handleSubmit(e as any);
+                    handleSubmit();
                   }
                 }}
               />
@@ -245,9 +246,6 @@ export default function Chat() {
                 New Chat
               </button>
             </div>
-            <p className="text-xs text-gray-600 dark:text-gray-400">
-              Click any suggestion to explore
-            </p>
           </div>
           
           <div className="flex-1 overflow-y-auto p-4">
