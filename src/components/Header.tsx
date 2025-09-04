@@ -173,10 +173,10 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
                       : 'bg-amber-800/20 border border-amber-700/30 text-amber-900 hover:bg-amber-800/30 hover:text-amber-800'
                   }`}
                 >
-                  <span className={fontSize === 'small' ? 'text-xs' : fontSize === 'medium' ? 'text-sm' : 'text-base'}>
+                  <span className="text-xs">
                     {fontSizes.find(f => f.code === fontSize)?.icon}
                   </span>
-                  <span>{fontSize.charAt(0).toUpperCase()}</span>
+                  <span className="text-xs">{fontSize.charAt(0).toUpperCase()}</span>
                   <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
