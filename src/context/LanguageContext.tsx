@@ -9,6 +9,9 @@ interface LanguageContextType {
   fontSize: 'small' | 'medium' | 'large';
   setFontSize: (size: 'small' | 'medium' | 'large') => void;
   getFontSizeClasses: () => { message: string; ui: string };
+  fontFamily: 'garamond' | 'sans' | 'dyslexic';
+  setFontFamily: (family: 'garamond' | 'sans' | 'dyslexic') => void;
+  getFontFamilyClass: () => string;
 }
 
 interface LanguageProviderProps {
@@ -22,6 +25,9 @@ const LanguageContext = createContext<LanguageContextType>({
   fontSize: 'small',
   setFontSize: () => {},
   getFontSizeClasses: () => ({ message: 'text-sm', ui: 'text-xs' }),
+  fontFamily: 'garamond',
+  setFontFamily: () => {},
+  getFontFamilyClass: () => 'font-garamond',
 });
 
 const translations = {
@@ -185,6 +191,7 @@ export const useLanguage = () => {
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState('en');
   const [fontSize, setFontSize] = useState<'small' | 'medium' | 'large'>('small');
+  const [fontFamily, setFontFamily] = useState<'garamond' | 'sans' | 'dyslexic'>('garamond');
 
   useEffect(() => {
     const saved = localStorage.getItem('preferred-language');
@@ -195,6 +202,11 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     const savedFontSize = localStorage.getItem('preferred-font-size');
     if (savedFontSize && ['small', 'medium', 'large'].includes(savedFontSize)) {
       setFontSize(savedFontSize as 'small' | 'medium' | 'large');
+    }
+    
+    const savedFontFamily = localStorage.getItem('preferred-font-family');
+    if (savedFontFamily && ['garamond', 'sans', 'dyslexic'].includes(savedFontFamily)) {
+      setFontFamily(savedFontFamily as 'garamond' | 'sans' | 'dyslexic');
     }
   }, []);
 
@@ -208,6 +220,11 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     localStorage.setItem('preferred-font-size', size);
   };
   
+  const handleSetFontFamily = (family: 'garamond' | 'sans' | 'dyslexic') => {
+    setFontFamily(family);
+    localStorage.setItem('preferred-font-family', family);
+  };
+  
   const getFontSizeClasses = () => {
     switch (fontSize) {
       case 'small':
@@ -218,6 +235,19 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         return { message: 'text-lg', ui: 'text-base' };
       default:
         return { message: 'text-sm', ui: 'text-xs' };
+    }
+  };
+  
+  const getFontFamilyClass = () => {
+    switch (fontFamily) {
+      case 'garamond':
+        return 'font-garamond';
+      case 'sans':
+        return 'font-sans';
+      case 'dyslexic':
+        return 'font-dyslexic';
+      default:
+        return 'font-garamond';
     }
   };
 
@@ -233,7 +263,10 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       t, 
       fontSize, 
       setFontSize: handleSetFontSize,
-      getFontSizeClasses 
+      getFontSizeClasses,
+      fontFamily,
+      setFontFamily: handleSetFontFamily,
+      getFontFamilyClass
     }}>
       {children}
     </LanguageContext.Provider>

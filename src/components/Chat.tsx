@@ -9,8 +9,9 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false);
-  const { language, t, getFontSizeClasses } = useLanguage();
+  const { language, t, getFontSizeClasses, getFontFamilyClass } = useLanguage();
   const fontSizes = getFontSizeClasses();
+  const fontFamily = getFontFamilyClass();
   const { messages, sendMessage, status } = useChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -106,7 +107,7 @@ export default function Chat() {
   }, [messages, isLoading]);
 
   return (
-    <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative">
+    <div className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative ${fontFamily}`}>
       <div className="bg-white dark:bg-gray-800 w-full h-full flex">
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col">
