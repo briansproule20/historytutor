@@ -51,7 +51,7 @@ function HomeContent() {
       <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
 
       {/* Interactive Chat Section - Full Viewport */}
-      <div className="fixed inset-0 pt-[8px] pb-0 px-0 md:px-10 relative z-10">
+      <div className="fixed inset-0 pt-0 md:pt-[8px] pb-0 px-0 md:px-10 relative z-10">
         <div className="w-full h-full relative">
           <Chat />
           

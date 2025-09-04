@@ -107,10 +107,10 @@ export default function Chat() {
   }, [messages, isLoading]);
 
   return (
-    <div className={`md:bg-white/10 md:backdrop-blur-md md:border md:border-white/20 md:rounded-xl md:shadow-2xl h-[80vh] max-h-[750px] w-full overflow-hidden relative ${fontFamily}`}>
+    <div className={`md:bg-white/10 md:backdrop-blur-md md:border md:border-white/20 md:rounded-xl md:shadow-2xl h-[100vh] md:h-[80vh] md:max-h-[750px] w-full overflow-hidden relative ${fontFamily} md:m-0`}>
       <div className="bg-white dark:bg-gray-800 w-full h-full flex">
         {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col">
+        <div className="w-full md:flex-1 flex flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               History Tutor Chat
@@ -123,7 +123,7 @@ export default function Chat() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 ? (
               <div className="flex justify-start">
-                <div className="max-w-xs lg:max-w-2xl px-4 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white">
+                <div className="max-w-[95vw] md:max-w-xs lg:max-w-2xl px-4 py-3 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white">
                   <div className={`${fontSizes.message} space-y-3`}>
                     <p className="font-medium">{t('welcome.greeting')}</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
@@ -142,11 +142,11 @@ export default function Chat() {
                 <div
                   key={index}
                   className={`flex ${
-                    message.role === "user" ? "justify-end" : "justify-start"
+                    message.role === "user" ? "md:justify-end justify-start" : "justify-start"
                   }`}
                 >
                   <div
-                    className={`max-w-xs lg:max-w-2xl px-4 py-3 rounded-lg ${
+                    className={`max-w-[95vw] md:max-w-xs lg:max-w-2xl px-4 py-3 rounded-lg ${
                       message.role === "user"
                         ? "bg-blue-500 text-white"
                         : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -200,19 +200,30 @@ export default function Chat() {
           </div>
           
           <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
-            <div className="flex gap-2">
-              <input
-                type="text"
+            <div className="flex gap-2 items-end">
+              <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={t('chat.placeholder')}
-                className={`flex-1 px-3 py-2 ${fontSizes.message} border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white`}
+                className={`flex-1 px-3 py-2 ${fontSizes.message} border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white resize-none overflow-hidden min-h-[40px] max-h-[120px]`}
                 disabled={isLoading}
+                rows={1}
+                onInput={(e) => {
+                  const target = e.target as HTMLTextAreaElement;
+                  target.style.height = 'auto';
+                  target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmit(e as any);
+                  }
+                }}
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className={`px-4 py-2 ${fontSizes.ui} bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed`}
+                className={`px-4 py-2 ${fontSizes.ui} bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0`}
               >
                 {isLoading ? "Sending..." : "Send"}
               </button>
@@ -221,7 +232,7 @@ export default function Chat() {
         </div>
 
         {/* Further Inquiry Sidebar - Desktop Only */}
-        <div className="hidden lg:flex w-80 border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex-col">
+        <div className="hidden md:flex w-80 border-l border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex-col">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div className="flex items-center justify-between mb-1">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
