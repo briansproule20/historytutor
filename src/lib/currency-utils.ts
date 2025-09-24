@@ -24,12 +24,16 @@ export const formatCurrency = (
     return '< $0.01';
   }
 
-  return value.toLocaleString(undefined, {
-    style: 'currency',
+  // Filter out 'credits' style for toLocaleString
+  const { style: _, ...validOptions } = options || {};
+  const localeOptions = {
+    style: 'currency' as const,
     currency: 'USD',
-    notation: 'compact',
+    notation: 'compact' as const,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-    ...options,
-  });
+    ...validOptions,
+  };
+
+  return value.toLocaleString(undefined, localeOptions);
 };
