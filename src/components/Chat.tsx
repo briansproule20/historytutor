@@ -14,6 +14,7 @@ export default function Chat() {
   const fontFamily = getFontFamilyClass();
   const { messages, sendMessage, status } = useChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const lastGeneratedForMessageId = useRef<string | null>(null);
 
   const isLoading = status === 'streaming' || status === 'submitted';
 
@@ -40,7 +41,7 @@ export default function Chat() {
     }
   };
 
-  const generateSmartSuggestions = useCallback(async (conversationHistory: unknown[]) => {
+  const generateSmartSuggestions = useCallback(async (conversationHistory: unknown[], lastMessageId: string) => {
     if (isGeneratingSuggestions) return;
     
     setIsGeneratingSuggestions(true);
@@ -60,6 +61,8 @@ export default function Chat() {
 
       const data = await response.json();
       setSuggestions(data.suggestions || []);
+      // Mark that we've generated suggestions for this message
+      lastGeneratedForMessageId.current = lastMessageId;
     } catch (error) {
       console.error('Error generating suggestions:', error);
       // Fallback to default suggestions only on error
@@ -71,6 +74,7 @@ export default function Chat() {
         t('suggestion.default5'),
         t('suggestion.default6')
       ]);
+      lastGeneratedForMessageId.current = lastMessageId;
     } finally {
       setIsGeneratingSuggestions(false);
     }
@@ -87,6 +91,8 @@ export default function Chat() {
         t('suggestion.default5'),
         t('suggestion.default6')
       ]);
+      // Reset the tracking when starting a new chat
+      lastGeneratedForMessageId.current = null;
     }
   }, [messages.length, t]);
 
@@ -98,7 +104,13 @@ export default function Chat() {
       
       // Only generate if the last message is from assistant and the one before is from user
       if (lastMessage.role === 'assistant' && secondLastMessage.role === 'user') {
-        generateSmartSuggestions(messages);
+        // Create a unique identifier for this exchange (using message content + timestamp)
+        const exchangeId = `${lastMessage.id || 'no-id'}-${secondLastMessage.id || 'no-id'}`;
+        
+        // Only generate suggestions if we haven't already generated them for this exchange
+        if (lastGeneratedForMessageId.current !== exchangeId) {
+          generateSmartSuggestions(messages, exchangeId);
+        }
       }
     }
   }, [status, messages, isGeneratingSuggestions, generateSmartSuggestions]);
