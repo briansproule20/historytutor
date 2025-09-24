@@ -20,7 +20,11 @@ interface EchoContextType {
   balance: Balance | number | null;
   signIn: () => void;
   signOut: () => void;
-  freeTierBalance?: any;
+  freeTierBalance?: {
+    userSpendInfo: {
+      amountLeft: number;
+    };
+  };
   createPaymentLink?: (amount: number) => Promise<string>;
 }
 

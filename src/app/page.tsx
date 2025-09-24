@@ -79,7 +79,7 @@ function HomeContent() {
                   {/* Instructions */}
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                     <p className="text-blue-800 text-sm font-medium">
-                      Click the "Connect" button in the header above to sign in
+                      Click the &quot;Connect&quot; button in the header above to sign in
                     </p>
                   </div>
                   
