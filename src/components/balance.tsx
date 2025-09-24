@@ -24,15 +24,15 @@ export default function EchoBalance({ echo }: { echo: EchoContextValue }) {
           <div className="flex items-center gap-2">
             <Logo className="size-6" />
             <div className="text-2xl font-semibold text-black">
-              {formatCurrency(totalBalance, { style: 'credits' })}
+              {formatCurrency(totalBalance)} credits
             </div>
           </div>
           {hasFreeCredits && (
             <div className="flex items-center gap-1 text-sm text-black">
-              <span>{formatCurrency(balanceAmount, { style: 'credits' })}</span>
+              <span>{formatCurrency(balanceAmount)} credits</span>
               <span>+</span>
               <span className="flex items-center gap-1">
-                {formatCurrency(freeTierAmountLeft, { style: 'credits' })}
+                {formatCurrency(freeTierAmountLeft)} credits
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>

@@ -35,7 +35,7 @@ export function EchoAccountButton({ echo }: { echo: EchoContextValue }) {
   ) : (
     <>
       <Logo className="size-4 w-4 h-4" />
-      <span>{formatCurrency(totalBalance, { style: 'credits' })}</span>
+      <span>{formatCurrency(totalBalance)} credits</span>
     </>
   );
 
