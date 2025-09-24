@@ -4,7 +4,7 @@ import { EchoTopUpButton } from '@/components/top-up-button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/echo-button';
 import { PopoverContent } from '@/components/ui/popover';
-import { type EchoContextValue } from '@merit-systems/echo-react-sdk';
+import { type EchoContextValue } from '@/context/EchoProvider';
 import { LogOut } from 'lucide-react';
 
 export function EchoAccountButtonPopover({ echo }: { echo: EchoContextValue }) {

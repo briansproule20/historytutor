@@ -6,7 +6,7 @@ import { Button } from '@/components/echo-button';
 import { Logo } from '@/components/logo';
 import { Popover, PopoverTrigger } from '@/components/ui/popover';
 import { Skeleton } from '@/components/ui/skeleton';
-import { type EchoContextValue } from '@merit-systems/echo-react-sdk';
+import { type EchoContextValue } from '@/context/EchoProvider';
 import { Gift, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 

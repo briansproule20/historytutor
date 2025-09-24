@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { type EchoContextValue } from '@merit-systems/echo-react-sdk';
+import { type EchoContextValue } from '@/context/EchoProvider';
 import { Gift } from 'lucide-react';
 import { Logo } from '@/components/logo';
 

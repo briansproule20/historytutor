@@ -13,7 +13,7 @@ interface Balance {
   balance?: number;
 }
 
-interface EchoContextType {
+export interface EchoContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
   user: User | null;
@@ -40,7 +40,7 @@ interface EchoProviderProps {
   children: ReactNode;
 }
 
-const EchoContext = createContext<EchoContextType>({
+const EchoContext = createContext<EchoContextValue>({
   isAuthenticated: false,
   isLoading: true,
   user: null,
@@ -131,7 +131,7 @@ export const EchoProvider: React.FC<EchoProviderProps> = ({ config, children }) 
     return `https://echo.merit.systems/payment?amount=${amount}`;
   };
 
-  const value: EchoContextType = {
+  const value: EchoContextValue = {
     isAuthenticated,
     isLoading,
     user,

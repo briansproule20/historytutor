@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/echo-button';
 import { MoneyInput } from '@/components/money-input';
-import { type EchoContextValue } from '@merit-systems/echo-react-sdk';
+import { type EchoContextValue } from '@/context/EchoProvider';
 import { Check, CreditCard, Edit, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
