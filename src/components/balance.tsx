@@ -13,7 +13,8 @@ export default function EchoBalance({ echo }: { echo: EchoContextValue }) {
   const { balance, freeTierBalance } = echo;
 
   const freeTierAmountLeft = freeTierBalance?.userSpendInfo.amountLeft ?? 0;
-  const totalBalance = (balance?.balance || 0) + (freeTierAmountLeft || 0);
+  const balanceAmount = typeof balance === 'number' ? balance : (balance?.balance || 0);
+  const totalBalance = balanceAmount + (freeTierAmountLeft || 0);
   const hasFreeCredits = freeTierAmountLeft > 0;
 
   return (
@@ -28,7 +29,7 @@ export default function EchoBalance({ echo }: { echo: EchoContextValue }) {
           </div>
           {hasFreeCredits && (
             <div className="flex items-center gap-1 text-sm text-black">
-              <span>{formatCurrency(balance?.balance || 0, { style: 'credits' })}</span>
+              <span>{formatCurrency(balanceAmount, { style: 'credits' })}</span>
               <span>+</span>
               <span className="flex items-center gap-1">
                 {formatCurrency(freeTierAmountLeft, { style: 'credits' })}
