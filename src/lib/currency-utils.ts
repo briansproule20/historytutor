@@ -1,5 +1,9 @@
-interface CurrencyOptions extends Intl.NumberFormatOptions {
-  style?: Intl.NumberFormatOptions['style'] | 'credits';
+interface CurrencyOptions {
+  style?: 'currency' | 'decimal' | 'percent' | 'unit' | 'credits';
+  currency?: string;
+  notation?: 'standard' | 'scientific' | 'engineering' | 'compact';
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
 }
 
 export const formatCurrency = (
