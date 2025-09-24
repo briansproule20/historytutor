@@ -13,8 +13,8 @@ import { useState } from 'react';
 export function EchoAccountButton({ echo }: { echo: EchoContextValue }) {
   const { user, balance, freeTierBalance, signIn, isLoading } = echo;
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const totalBalance =
-    (balance?.balance || 0) + (freeTierBalance?.userSpendInfo.amountLeft || 0);
+  const balanceAmount = typeof balance === 'number' ? balance : (balance?.balance || 0);
+  const totalBalance = balanceAmount + (freeTierBalance?.userSpendInfo.amountLeft || 0);
   const hasFreeCredits = freeTierBalance?.userSpendInfo.amountLeft ?? 0 > 0;
   const buttonContent = isLoading ? (
     <>
