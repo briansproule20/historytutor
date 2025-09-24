@@ -48,7 +48,7 @@ const EchoContext = createContext<EchoContextValue>({
   balance: null,
   signIn: () => {},
   signOut: () => {},
-  freeTierBalance: null,
+  freeTierBalance: undefined,
   createPaymentLink: async () => '',
 });
 
@@ -139,7 +139,7 @@ export const EchoProvider: React.FC<EchoProviderProps> = ({ config, children }) 
     balance,
     signIn,
     signOut,
-    freeTierBalance: null,
+    freeTierBalance: undefined,
     createPaymentLink,
   };
 
