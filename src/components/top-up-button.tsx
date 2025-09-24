@@ -55,20 +55,24 @@ export function EchoTopUpButton({ echo }: { echo: EchoContextValue }) {
                 `width=${width},height=${height},left=${left},top=${top}`
               );
 
-              createPaymentLink(amount)
-                .then(url => {
-                  // If popup was blocked or we're on mobile, open in new tab
-                  if (
-                    !popup ||
-                    popup.closed ||
-                    typeof popup.closed === 'undefined'
-                  ) {
-                    window.open(url, '_blank');
-                  } else {
-                    popup.location.href = url;
-                  }
-                })
-                .finally(() => setIsLoading(false));
+              if (createPaymentLink) {
+                createPaymentLink(amount)
+                  .then(url => {
+                    // If popup was blocked or we're on mobile, open in new tab
+                    if (
+                      !popup ||
+                      popup.closed ||
+                      typeof popup.closed === 'undefined'
+                    ) {
+                      window.open(url, '_blank');
+                    } else {
+                      popup.location.href = url;
+                    }
+                  })
+                  .finally(() => setIsLoading(false));
+              } else {
+                setIsLoading(false);
+              }
             }}
           >
             {isLoading ? (
