@@ -6,7 +6,6 @@ import DotBackground from "@/components/DotBackground";
 import Chat from "@/components/Chat";
 import { EchoProvider, useEcho } from "@/context/EchoProvider";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { EchoSignIn } from "@/components/EchoSignIn";
 
 function HomeContent() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -57,8 +56,8 @@ function HomeContent() {
           
           {/* Sign In Modal Overlay */}
           {!isAuthenticated && !isLoading && (
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-              <div className="bg-white/95 backdrop-blur-md border border-white/30 rounded-2xl p-8 shadow-2xl max-w-md w-full mx-4 transform transition-all duration-300 scale-100">
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+              <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-2xl max-w-md w-full mx-4 transform transition-all duration-300 scale-100">
                 <div className="text-center">
                   {/* Icon */}
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -68,38 +67,31 @@ function HomeContent() {
                   </div>
                   
                   {/* Title */}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                    Sign In to Chat
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                    Sign In Required
                   </h3>
                   
                   {/* Description */}
-                  <p className="text-gray-600 mb-6 leading-relaxed">
-                    To access your personalized AI tutor and start learning, please sign in with your Echo account.
+                  <p className="text-gray-700 mb-6 leading-relaxed text-base">
+                    To access your personalized AI history tutor and start learning, please sign in with your Echo account.
                   </p>
                   
-                  {/* Sign In Button */}
-                  <EchoSignIn 
-                    onSuccess={(user) => console.log('Signed in:', user)}
-                    onError={(error) => console.error('Sign in failed:', error)}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                  >
-                    <div className="flex items-center justify-center space-x-2">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      <span>Sign In with Echo</span>
-                    </div>
-                  </EchoSignIn>
+                  {/* Instructions */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <p className="text-blue-800 text-sm font-medium">
+                      Click the "Connect" button in the header above to sign in
+                    </p>
+                  </div>
                   
                   {/* Additional Info */}
                   <div className="mt-6 pt-6 border-t border-gray-200">
-                    <p className="text-sm text-gray-500">
-                      Don&apos;t have an account? 
+                    <p className="text-sm text-gray-600">
+                      Don&apos;t have an Echo account? 
                       <a 
                         href="https://echo.merit.systems" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 font-medium ml-1 transition-colors"
+                        className="text-blue-600 hover:text-blue-700 font-medium ml-1 transition-colors underline"
                       >
                         Create one here
                       </a>

@@ -1,6 +1,5 @@
-import { useEcho } from "@/context/EchoProvider";
 import { useLanguage } from "@/context/LanguageContext";
-import { EchoSignIn } from "@/components/EchoSignIn";
+import { EchoAccount } from "@/components/echo-account-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -23,28 +22,10 @@ const SunIcon = () => (
   </svg>
 );
 
-const UserIcon = () => (
-  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-  </svg>
-);
-
-const CreditCardIcon = () => (
-  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM2 9v5a2 2 0 002 2h12a2 2 0 002-2V9H2zm8 2a1 1 0 000 2h.01a1 1 0 100-2H10z" clipRule="evenodd" />
-  </svg>
-);
-
-const LogOutIcon = () => (
-  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
-  </svg>
-);
 
 
 
 export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderProps) {
-  const { isAuthenticated, isLoading, user, balance, signOut } = useEcho();
   const { language, setLanguage, t, fontSize, setFontSize, fontFamily, setFontFamily } = useLanguage();
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [isFontSizeOpen, setIsFontSizeOpen] = useState(false);
@@ -279,95 +260,14 @@ export default function Header({ isDarkMode = false, toggleDarkMode }: HeaderPro
               )}
             </div>
             
-            {/* Echo Authentication */}
-            {isLoading ? (
-              <div className={`backdrop-blur-md px-4 py-2 rounded-lg ${
-                isDarkMode
-                  ? 'bg-slate-700/50 border border-slate-600/30 text-slate-200'
-                  : 'bg-amber-50/80 border border-amber-200/50 text-amber-800'
-              }`}>
-                <div className={`animate-spin rounded-full h-4 w-4 border-b-2 ${
-                  isDarkMode ? 'border-slate-200' : 'border-amber-800'
-                }`}></div>
-              </div>
-            ) : isAuthenticated ? (
-              <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:space-x-3">
-                {/* First Row: User Info + Balance */}
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  {/* User Info */}
-                  <div className={`backdrop-blur-md px-2 sm:px-3 py-2 rounded-lg ${
-                    isDarkMode
-                      ? 'bg-slate-700/50 border border-slate-600/30 text-slate-200'
-                      : 'bg-amber-50/80 border border-amber-200/50 text-amber-800'
-                  }`}>
-                    <div className="flex items-center space-x-2">
-                      <UserIcon />
-                      <span className="text-xs sm:text-sm font-medium truncate max-w-[100px] sm:max-w-none">{user?.name || user?.email || t('header.user')}</span>
-                    </div>
-                  </div>
-                  
-                  {/* Balance */}
-                  <div className={`backdrop-blur-md px-2 sm:px-3 py-2 rounded-lg ${
-                    isDarkMode
-                      ? 'bg-slate-700/50 border border-slate-600/30 text-slate-200'
-                      : 'bg-amber-50/80 border border-amber-200/50 text-amber-800'
-                  }`}>
-                    <div className="flex items-center space-x-2">
-                      <CreditCardIcon />
-                      <span className="text-xs sm:text-sm font-medium">
-                        {balance ? (
-                          typeof balance === 'number' ? 
-                            `${balance.toFixed(3)} ${t('header.credits')}` : 
-                            `${(balance.balance || 0).toFixed(3)} ${t('header.credits')}`
-                        ) : (
-                          `0.000 ${t('header.credits')}`
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Second Row: Echo Base + Sign Out */}
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  {/* Echo Base */}
-                  <button 
-                    onClick={() => window.open('https://echo.merit.systems', '_blank')}
-                    className={`backdrop-blur-md px-2 sm:px-3 py-2 rounded-lg transition-colors text-xs sm:text-sm font-medium ${
-                      isDarkMode
-                        ? 'bg-slate-700/50 border border-slate-600/30 text-slate-200 hover:bg-slate-600/50 hover:text-slate-100'
-                        : 'bg-amber-50/80 border border-amber-200/50 text-amber-800 hover:bg-amber-100/80 hover:text-amber-900'
-                    }`}
-                  >
-                    {t('header.echoBase')}
-                  </button>
-                  
-                  {/* Sign Out */}
-                  <button
-                    onClick={signOut}
-                    className={`backdrop-blur-md px-2 sm:px-3 py-2 rounded-lg transition-colors flex items-center space-x-2 text-xs sm:text-sm font-medium ${
-                      isDarkMode
-                        ? 'bg-slate-700/50 border border-slate-600/30 text-slate-200 hover:bg-slate-600/50 hover:text-slate-100'
-                        : 'bg-amber-50/80 border border-amber-200/50 text-amber-800 hover:bg-amber-100/80 hover:text-amber-900'
-                    }`}
-                  >
-                    <LogOutIcon />
-                    <span className="hidden sm:inline">{t('header.signOut')}</span>
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <EchoSignIn 
-                onSuccess={(user) => console.log('Signed in:', user)}
-                onError={(error) => console.error('Sign in failed:', error)}
-                className={`backdrop-blur-md px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
-                  isDarkMode
-                    ? 'bg-slate-700/50 border border-slate-600/30 text-slate-200 hover:bg-slate-600/50 hover:text-slate-100'
-                    : 'bg-amber-50/80 border border-amber-200/50 text-amber-800 hover:bg-amber-100/80 hover:text-amber-900'
-                }`}
-              >
-                {t('header.signIn')}
-              </EchoSignIn>
-            )}
+            {/* Echo Account Component */}
+            <div className={`backdrop-blur-md rounded-lg ${
+              isDarkMode
+                ? 'bg-slate-700/50 border border-slate-600/30'
+                : 'bg-amber-50/80 border border-amber-200/50'
+            }`}>
+              <EchoAccount />
+            </div>
           </div>
         </div>
       </div>

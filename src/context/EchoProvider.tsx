@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { signIn as echoSignIn } from '@merit-systems/echo-next-sdk/client';
 
 interface User {
   name?: string;
@@ -17,7 +18,10 @@ interface EchoContextType {
   isLoading: boolean;
   user: User | null;
   balance: Balance | number | null;
+  signIn: () => void;
   signOut: () => void;
+  freeTierBalance?: any;
+  createPaymentLink?: (amount: number) => Promise<string>;
 }
 
 interface EchoConfig {
@@ -37,7 +41,10 @@ const EchoContext = createContext<EchoContextType>({
   isLoading: true,
   user: null,
   balance: null,
+  signIn: () => {},
   signOut: () => {},
+  freeTierBalance: null,
+  createPaymentLink: async () => '',
 });
 
 export const useEcho = () => {
@@ -64,7 +71,10 @@ export const EchoProvider: React.FC<EchoProviderProps> = ({ config, children }) 
         if (isSignedIn && userData && userData.id && userData.email) {
           // Only consider authenticated if we have valid user data with ID and email
           setUser(userData);
-          setBalance(userData.balance);
+          // Format balance to match what Echo components expect
+          setBalance({
+            balance: typeof userData.balance === 'number' ? userData.balance : (userData.balance?.balance || 0)
+          });
           setIsAuthenticated(true);
         } else {
           // If we don't have proper user data, treat as not authenticated
@@ -91,6 +101,10 @@ export const EchoProvider: React.FC<EchoProviderProps> = ({ config, children }) 
     checkAuth();
   }, [config]);
 
+  const signIn = () => {
+    echoSignIn();
+  };
+
   const signOut = async () => {
     try {
       // Call sign out endpoint to clear cookies
@@ -107,12 +121,21 @@ export const EchoProvider: React.FC<EchoProviderProps> = ({ config, children }) 
     }
   };
 
+  const createPaymentLink = async (amount: number): Promise<string> => {
+    // This would typically call an API to create a payment link
+    // For now, return a placeholder
+    return `https://echo.merit.systems/payment?amount=${amount}`;
+  };
+
   const value: EchoContextType = {
     isAuthenticated,
     isLoading,
     user,
     balance,
+    signIn,
     signOut,
+    freeTierBalance: null,
+    createPaymentLink,
   };
 
   return (
