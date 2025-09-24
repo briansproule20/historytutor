@@ -1,6 +1,10 @@
+interface CurrencyOptions extends Intl.NumberFormatOptions {
+  style?: Intl.NumberFormatOptions['style'] | 'credits';
+}
+
 export const formatCurrency = (
   value: number,
-  options?: Intl.NumberFormatOptions
+  options?: CurrencyOptions
 ): string => {
   // For credits, display as credits instead of currency
   if (options?.style === 'credits' || value < 1) {
